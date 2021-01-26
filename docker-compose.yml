@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+  ping-pong-api:
+    image: pkjacob/ping-pong-api:0.0.1-SNAPSHOT 
+    container_name: ping-pong-api 
+    ports: 
+      - "8081:8081"
+    networks:
+      - ping-pong-network
+  apache:
+    image: pkjacob/ping-pong-apache
+    container_name: ping-pong-apache
+    ports:
+      - "80:80"
+    networks:
+      - ping-pong-network
+  ping-pong-keycloak:
+    image: pkjacob/ping-pong-keycloak
+    container_name: ping-pong-keycloak
+    ports:
+      - "8080:8080"
+    networks:
+      - ping-pong-network
+    environment:
+      - KEYCLOAK_USER=admin 
+      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_FRONTEND_URL=http://localhost:8080/auth      
+networks:
+  ping-pong-network:
